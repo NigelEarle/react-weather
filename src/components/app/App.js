@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {
+  LocationInput,
+} from '../../components';
 import './App.css';
 
 class AppComponent extends Component {
@@ -6,6 +9,7 @@ class AppComponent extends Component {
     return (
       <div className="appContainer">
         <h1>React Weather</h1>
+        <LocationInput />
       </div>
     );
   }
