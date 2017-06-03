@@ -9,8 +9,8 @@ class AppComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      latitude: 0,
-      longitude: 0,
+      data: {},
+      err: '',
     }
   }
 
@@ -26,32 +26,33 @@ class AppComponent extends Component {
     .getCurrentPosition(this.success, this.error, options)
   }
 
-  success = ({ coords }) => {
+  success = async ({ coords }) => {
     const { latitude, longitude } = coords;
-    this.setState({
-      latitude,
-      longitude,
-    })
-
-    console.log(latitude, longitude);
-    // console.log(data);
+    const latLon = {
+      lat: latitude,
+      lon: longitude,
+    };
+    try{
+      const data = await weatherReq(latLon);
+      this.setState({ data });
+    } catch (err) {
+      this.setState({ err })
+    }
   }
 
-  error = (error) => {
-    console.log('ERROR', error);
+  error = (err) => {
+    this.setState({ err });
   }
 
   render() {
-    const { latitude, longitude } = this.state;
+    const { data } = this.state; 
+    console.log(data);
     return (
       <div>
-        {latitude && longitude ?
+        {Object.keys(data).length > 0 ?
           <div className="appContainer">
             <h1>Search Location for Weather</h1>
-            <LocationInput
-              latitude={latitude}
-              longitude={longitude}
-            />
+            <LocationInput />
           </div>
           : 
           <div className="noGeo">
