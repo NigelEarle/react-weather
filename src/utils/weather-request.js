@@ -7,7 +7,7 @@ export default ({
   lat = null,
   lon = null
 }) => {
-  let url = `http://api.openweathermap.org/data/2.5/weather?APPID=${OwmAPIKey}&`;
+  let url = `http://api.openweathermap.org/data/2.5/forecast/daily?APPID=${OwmAPIKey}&`;
 
   if (city) {
     url = `${url}q=${city}`;

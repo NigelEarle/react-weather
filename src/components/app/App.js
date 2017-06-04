@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import weatherReq from '../../utils/weather-request';
 import {
   LocationInput,
+  WeekList,
 } from '../../components';
 import './App.css';
 
@@ -33,7 +34,7 @@ class AppComponent extends Component {
       lon: longitude,
     };
     try{
-      const data = await weatherReq(latLon);
+      const { data } = await weatherReq(latLon);
       this.setState({ data });
     } catch (err) {
       this.setState({ err })
@@ -46,13 +47,15 @@ class AppComponent extends Component {
 
   render() {
     const { data } = this.state; 
-    console.log(data);
     return (
       <div>
         {Object.keys(data).length > 0 ?
           <div className="appContainer">
             <h1>Search Location for Weather</h1>
             <LocationInput />
+            <ul>
+               <WeekList/>
+            </ul>
           </div>
           : 
           <div className="noGeo">
