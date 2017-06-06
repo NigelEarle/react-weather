@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 
-class WeekList extends Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    return (
-      <li>
-        list item
-      </li>
-    );
-  }
+const WeekList = ({  }) => {
+  return (
+    <li className="day">
+      <h3>daily weather</h3>
+    </li>
+  );
 }
 
 export default WeekList;

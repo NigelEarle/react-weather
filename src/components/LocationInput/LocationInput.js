@@ -3,30 +3,33 @@ import PropTypes from 'prop-types';
 import './LocationInput.css';
 import weatherReq from '../../utils/weather-request';
 
+const ZIPCODE = new RegExp(/\d{5}(?:[-\s]\d{4})?$/);
+
 class LocationInput extends Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      location: '',
+    }
   }
 
-  static defaultProps = {
-    latitude: 0,
-    longitude: 0,
-  };
+  getLocation = (event) => {
+    const { receiveLocation } = this.props;
+    const { location } = this.state;
 
-  static propTypes = {
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  };
-
-  componentDidMount() {
-    // make request from input / or geo
+    if(event.charCode === 13) {
+      if(location.match(ZIPCODE)) {
+        receiveLocation(location)
+      }
+    }
   }
 
   render() {
     return (
       <div>
         <input
+          onChange={({ target }) => this.setState({location: target.value})}
+          onKeyPress={this.getLocation}
           type="text"
           placeholder="Location"
         />

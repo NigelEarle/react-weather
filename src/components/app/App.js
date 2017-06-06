@@ -41,20 +41,28 @@ class AppComponent extends Component {
     }
   }
 
+  receiveLocation = async (val) => {
+    const { data } = await weatherReq({ zipcode: val });
+    console.log(data)
+  }
+
   error = (err) => {
     this.setState({ err });
   }
 
   render() {
     const { data } = this.state; 
+    console.log(data);
     return (
       <div>
         {Object.keys(data).length > 0 ?
           <div className="appContainer">
             <h1>Search Location for Weather</h1>
-            <LocationInput />
+            <LocationInput
+              receiveLocation={this.receiveLocation}
+            />
             <ul>
-               <WeekList/>
+              {data.list.map(current => <WeekList key={current.dt} {...current}/>)}
             </ul>
           </div>
           : 
