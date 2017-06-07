@@ -33,7 +33,7 @@ class AppComponent extends Component {
       lat: latitude,
       lon: longitude,
     };
-  
+
     try{
       const { data } = await weatherReq(latLon);
       this.setState({ data });
@@ -67,11 +67,11 @@ class AppComponent extends Component {
       <div>
         {Object.keys(data).length > 0 ?
           <div className="appContainer">
-            <h1>Search Location for Weather</h1>
+            <h1>React Weather</h1>
             <LocationInput
               receiveLocation={this.receiveLocation}
             />
-            <ul>
+            <ul className="weekList">
               {data.list.map(current => <WeekList key={current.dt} {...current}/>)}
             </ul>
           </div>

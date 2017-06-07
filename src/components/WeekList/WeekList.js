@@ -1,8 +1,18 @@
 import React from 'react';
+import './WeekList.css';
 
-const WeekList = ({  }) => {
+const WeekList = ({
+  deg,
+  dt,
+  humidity,
+  pressure,
+  speed,
+  temp,
+  weather
+}) => {
+
   return (
-    <li className="day">
+    <li className="dayItem">
       <h3>daily weather</h3>
     </li>
   );
