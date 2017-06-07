@@ -27,7 +27,7 @@ class LocationInput extends Component {
 
   render() {
     return (
-      <div>
+      <div className="inputContainer">
         <input
           onChange={({ target }) => {
             return this.setState({location: target.value});
