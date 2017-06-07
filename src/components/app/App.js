@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import weatherReq from '../../utils/weather-request';
+import kelvinToFarenheit from '../../utils/convert-temp';
 import {
   LocationInput,
   WeekList,
@@ -36,21 +37,24 @@ class AppComponent extends Component {
 
     try{
       const { data } = await weatherReq(latLon);
-      this.setState({ data });
+      this.convertTemp(data);
     } catch (err) {
       this.setState({ err })
     }
   }
 
   receiveLocation = async (type, value) => {
+    const payload = {};
     try {
       if (type === 'zipcode') {
-        const { data } = await weatherReq({ zipcode: value });
-        this.setState({ data });
+        payload.zipcode = value;
       } else {
-        const { data } = await weatherReq({ city: value });
-        this.setState({ data });
+        payload.city = value
       }
+
+      const { data } = await weatherReq(payload);
+      this.convertTemp(data);
+
     } catch (err) {
       this.setState({ err })
     }
@@ -60,14 +64,34 @@ class AppComponent extends Component {
     this.setState({ err });
   }
 
+  convertTemp = (data) => {
+    const updatedList = data.list.map((day) =>  {
+      const tempCopy = Object.assign({}, day.temp);
+      for(let key in tempCopy) {
+        tempCopy[key] = kelvinToFarenheit(tempCopy[key])
+      }
+      return {
+        ...day,
+        temp: tempCopy,
+      }
+    });
+
+    this.setState({
+      data: {
+        ...data,
+        list: updatedList,
+      }
+    });
+  }
+
   render() {
-    const { data } = this.state; 
-    console.log(data);
+    const { data } = this.state;
+    console.log('DATA', data);
     return (
       <div>
         {Object.keys(data).length > 0 ?
           <div className="appContainer">
-            <h1>React Weather</h1>
+            <h1>{data.city.name}</h1>
             <LocationInput
               receiveLocation={this.receiveLocation}
             />
@@ -76,7 +100,7 @@ class AppComponent extends Component {
             </ul>
           </div>
           : 
-          <div className="noGeo">
+          <div>
             <h1>No Geo</h1>
           </div>
         }
