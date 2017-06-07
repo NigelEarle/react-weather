@@ -33,6 +33,7 @@ class AppComponent extends Component {
       lat: latitude,
       lon: longitude,
     };
+  
     try{
       const { data } = await weatherReq(latLon);
       this.setState({ data });
@@ -41,9 +42,18 @@ class AppComponent extends Component {
     }
   }
 
-  receiveLocation = async (val) => {
-    const { data } = await weatherReq({ zipcode: val });
-    console.log(data)
+  receiveLocation = async (type, value) => {
+    try {
+      if (type === 'zipcode') {
+        const { data } = await weatherReq({ zipcode: value });
+        this.setState({ data });
+      } else {
+        const { data } = await weatherReq({ city: value });
+        this.setState({ data });
+      }
+    } catch (err) {
+      this.setState({ err })
+    }
   }
 
   error = (err) => {
