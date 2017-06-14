@@ -91,7 +91,7 @@ class AppComponent extends Component {
       <div>
         {Object.keys(data).length > 0 ?
           <div className="appContainer">
-            <h1>{data.city.name}</h1>
+            <h1 className="locationName">{data.city.name}</h1>
             <LocationInput
               receiveLocation={this.receiveLocation}
             />
